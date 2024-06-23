@@ -3,11 +3,11 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import GenreSection from './index';
 import { fetchMoviesByGenre } from '../../apis/moviesApi';
 import { BrowserRouter } from 'react-router-dom';
-import { vi } from 'vitest';
+import { describe, expect, vi } from 'vitest';
 
 vi.mock('../../apis/moviesApi');
 
-const mockFetchMoviesByGenre = fetchMoviesByGenre as vi.Mock;
+const mockFetchMoviesByGenre = fetchMoviesByGenre as any;
 
 const queryClient = new QueryClient();
 
