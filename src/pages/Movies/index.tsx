@@ -3,11 +3,7 @@ import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { fetchGenres } from "../../apis/moviesApi";
 import GenreSection from "../../components/GenreSection/index.tsx";
-
-interface Genre {
-  id: number;
-  name: string;
-}
+import { Genre } from "../../constants/types.tsx";
 
 const MoviesByGenre: React.FC = () => {
   const {

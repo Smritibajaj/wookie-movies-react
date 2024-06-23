@@ -1,15 +1,10 @@
 import { Link } from "react-router-dom";
 import { image_url } from "../../constants";
 import { useState } from "react";
+import { Movie } from "../../constants/types";
 
-interface MovieCardProps {
-  id: number;
-  title: string;
-  poster_path: string;
-  release_date: string;
-  overview: string;
-}
-const MovieCard: React.FC<MovieCardProps> = ({
+
+const MovieCard: React.FC<Movie> = ({
   id,
   title,
   poster_path,

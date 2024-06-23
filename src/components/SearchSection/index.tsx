@@ -5,14 +5,7 @@ import { searchMovies } from "../../apis/moviesApi.ts";
 import MovieCard from "../MovieCard.tsx/index.tsx";
 import Header from "../Header/index.tsx";
 import { MagnifyingGlassIcon } from "@heroicons/react/16/solid";
-
-interface Movie {
-  id: number;
-  title: string;
-  overview: string;
-  poster_path: string;
-  release_date: string;
-}
+import { Movie } from "../../constants/types.tsx";
 
 const SearchMovies: React.FC = () => {
   const [query, setQuery] = useState("");

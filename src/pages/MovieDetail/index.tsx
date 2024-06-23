@@ -4,17 +4,6 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchMovieDetail } from "../../apis/moviesApi";
 import { image_url } from "../../constants";
 
-interface MovieDetail {
-  id: number;
-  title: string;
-  overview: string;
-  poster_path: string;
-  release_date: string;
-  genres: { id: number; name: string }[];
-  runtime: number;
-  vote_average: number;
-}
-
 const MovieDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const movieId = parseInt(id ?? "", 10);
