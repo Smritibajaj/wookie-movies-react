@@ -1,3 +1,15 @@
+## [0.2.0] - 2024-06-24
+
+### Added
+- Initial setup of testcases.
+- wrote test cases
+
+
+### Changed
+- seperated pages and components
+- improved styles
+### Fixed
+
 ## [0.1.0] - 2024-06-23 - 2024-06-24
 
 ### Added

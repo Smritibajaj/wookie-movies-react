@@ -1,0 +1,75 @@
+// src/SearchMovies.tsx
+import React, { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { searchMovies } from "../../apis/moviesApi.ts";
+import MovieCard from "../MovieCard.tsx/index.tsx";
+import Header from "../Header/index.tsx";
+import { MagnifyingGlassIcon } from "@heroicons/react/16/solid";
+
+interface Movie {
+  id: number;
+  title: string;
+  overview: string;
+  poster_path: string;
+  release_date: string;
+}
+
+const SearchMovies: React.FC = () => {
+  const [query, setQuery] = useState("");
+  const { data, error, isLoading } = useQuery({
+    queryKey: ["searchMovies", query],
+    queryFn: () => searchMovies(query),
+    enabled: !!query,
+  });
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setQuery(event.target.value);
+  };
+
+  return (
+    <div>
+      <div className="w-full h-24 md:h-16 border-b">
+        <div className="box-container md:flex md:justify-between items-center h-full">
+          <Header />
+          <div className="flex items-center border px-2 gap-2 py-1 rounded">
+            <MagnifyingGlassIcon className="h-6 w-6 text-gray-600" />
+            <input
+              className="my-2 focus:outline-none focus:border-none"
+              type="text"
+              value={query}
+              onChange={handleInputChange}
+              placeholder="Search for a movie..."
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        className={`box-container ${
+          data?.results?.length ? "my-4 border-b border-gray-300" : ""
+        }`}
+      >
+        {data?.results?.length ? (
+          <h2 className="h2">{`Search Result`}</h2>
+        ) : (
+          <></>
+        )}
+        <div className="flex w-full gap-6 overflow-auto my-6">
+          {isLoading && <div>Loading...</div>}
+          {error && <div>Error: {error.message}</div>}
+          {data?.results.map((movie: Movie) => (
+            <MovieCard
+              key={movie.id}
+              id={movie.id}
+              title={movie.title}
+              poster_path={movie.poster_path}
+              release_date={movie.release_date}
+              overview={movie.overview}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default SearchMovies;

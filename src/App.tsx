@@ -1,13 +1,10 @@
 // src/App.tsx
-import React from 'react';
-import Movies from './pages/Movies';
-import SearchMovies from './pages/Movies/SearchMovie';
+import React from "react";
+import Movies from "./pages/Movies";
 
 const App: React.FC = () => {
   return (
-    <div>
-      <h1>Welcome to Thikkiiana City Movie Theater</h1>
-      <SearchMovies />
+    <div className="box-container">
       <Movies />
     </div>
   );
