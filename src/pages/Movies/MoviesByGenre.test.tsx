@@ -1,6 +1,5 @@
 // src/pages/Movies/MoviesByGenre.test.tsx
-import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import MoviesByGenre from '../../components/GenreSection';
 import { fetchGenres } from '../../apis/moviesApi';
