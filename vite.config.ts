@@ -13,12 +13,12 @@ const excludeFiles = (regex: RegExp) => {
 };
 
 export default defineConfig({
-  plugins: [react(), excludeFiles(/\/path\/to\/test\.tsx$/)],
-  test: {
-    globals: true,
-    environment: "jsdom",
-    setupFiles: "./src/setupTests.ts",
-  },
+  plugins: [react()],
+  // test: {
+  //   globals: true,
+  //   environment: "jsdom",
+  //   setupFiles: "./src/setupTests.ts",
+  // },
   build: {
     rollupOptions: {
       input: {
