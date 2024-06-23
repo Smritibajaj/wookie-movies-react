@@ -1,16 +1,1 @@
-{
-    "version": 2,
-    "redirects": [
-        {
-          "source": "/old-movies",
-          "destination": "/",
-          "permanent": true
-        }
-      ],
-    "rewrites": [
-      {
-        "source": "/api/:path*",
-        "destination": "/api/:path*"
-      }
-    ]
-  }
+{ "rewrites": [{ "source": "/(.*)", "destination": "/" }] }
