@@ -1,54 +1,27 @@
 // src/api.ts
+import { Movie } from '../constants/types';
 import axiosInstance from '../utils/axiosInstance';
 
-interface Movie {
-  id: number;
-  title: string;
-  overview: string;
-  poster_path: string;
-  release_date: string;
-  genres: { id: number; name: string }[];
-  runtime: number;
-  vote_average: number;
-}
-
 interface MoviesResponse {
-  results: Movie[];
+  movies: Movie[];
 }
 
-interface Genre {
-  id: number;
-  name: string;
-}
-
-interface GenresResponse {
-  genres: Genre[];
-}
-
-export const fetchGenres = async (): Promise<GenresResponse> => {
-  const response = await axiosInstance.get<GenresResponse>('/genre/movie/list');
-  return response.data;
-};
-
-export const fetchMoviesByGenre = async (genreId: number): Promise<MoviesResponse> => {
-  const response = await axiosInstance.get<MoviesResponse>('/discover/movie', {
-    params: {
-      with_genres: genreId,
-    },
+export const fetchMoviesByGenre = async (): Promise<MoviesResponse> => {
+  const response = await axiosInstance.get<MoviesResponse>('/movies', {
   });
   return response.data;
 };
 
 export const searchMovies = async (query: string): Promise<MoviesResponse> => {
-  const response = await axiosInstance.get<MoviesResponse>('/search/movie', {
+  const response = await axiosInstance.get<MoviesResponse>('/movies', {
     params: {
-      query,
+      q:query,
     },
   });
   return response.data;
 };
 
-export const fetchMovieDetail = async (movieId: number): Promise<Movie> => {
-  const response = await axiosInstance.get<Movie>(`/movie/${movieId}`);
+export const fetchMovieDetail = async (movieId: string): Promise<Movie> => {
+  const response = await axiosInstance.get<Movie>(`/movies/${movieId}`);
   return response.data;
 };

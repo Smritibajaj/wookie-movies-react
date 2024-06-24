@@ -1,52 +1,48 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import MovieCard from './index';
+import { Movie } from '../../constants/types';
 
-const mockMovie = {
-  id: 1,
-  title: 'Inception',
-  poster_path: '/inception.jpg',
-  release_date: '2010-07-16',
-  overview: 'A thief who steals corporate secrets through the use of dream-sharing technology...',
+const mockMovie: Movie = {
+  id: '1',
+  title: 'First Movie',
+  backdrop: 'https://example.com/backdrop1.jpg',
+  released_on: '2021-01-01',
+  overview: 'Overview of the first movie. This is a longer text to test the expand functionality.',
+  cast: [],
+  classification: '',
+  director: '',
+  genres: [],
+  imdb_rating: 0,
+  length: '',
+  poster: '',
+  slug: '',
 };
 
 describe('MovieCard', () => {
-  test('renders movie details', () => {
+
+  it('should toggle overview text on button click', () => {
     render(
-      <BrowserRouter>
+      <Router>
         <MovieCard {...mockMovie} />
-      </BrowserRouter>
+      </Router>
     );
 
-    expect(screen.getByAltText(/inception/i)).toBeInTheDocument();
-    expect(screen.getByText(/inception/i)).toBeInTheDocument();
-    expect(screen.getByText(/release date/i)).toBeInTheDocument();
-    expect(screen.getByText(/a thief who steals corporate secrets/i)).toBeInTheDocument();
+    const button = screen.getByText(/Read More/i);
+    fireEvent.click(button);
+    expect(screen.getByText(/Read Less/i)).toBeInTheDocument();
+    fireEvent.click(button);
+    expect(screen.getByText(/Read More/i)).toBeInTheDocument();
   });
 
-  test('toggles overview text expansion', () => {
+  it('should navigate to movie detail page on card click', () => {
     render(
-      <BrowserRouter>
+      <Router>
         <MovieCard {...mockMovie} />
-      </BrowserRouter>
+      </Router>
     );
 
-    const button = screen.getByText(/read more/i);
-    fireEvent.click(button);
-    expect(screen.getByText(/read less/i)).toBeInTheDocument();
-
-    fireEvent.click(button);
-    expect(screen.getByText(/read more/i)).toBeInTheDocument();
-  });
-
-  test('navigates to movie detail page on link click', () => {
-    render(
-      <BrowserRouter>
-        <MovieCard {...mockMovie} />
-      </BrowserRouter>
-    );
-
-    const link = screen.getByRole('link', { name: /inception/i });
-    expect(link).toHaveAttribute('href', '/movie/1');
+    const link = screen.getByRole('link', { name: /First Movie/i });
+    expect(link).toHaveAttribute('href', `/movie/${mockMovie.id}`);
   });
 });

@@ -1,6 +1,17 @@
 ## [0.3.0] - 2024-06-24
 
 ### Added
+- new apis
+### Changed
+- all new changes of schema in movie
+### Fixed
+-test cases
+- api started working so changed api endpoint
+
+
+## [0.3.0] - 2024-06-24
+
+### Added
 - added common types
 ### Changed
 - changes done for build

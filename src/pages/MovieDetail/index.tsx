@@ -2,11 +2,10 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { fetchMovieDetail } from "../../apis/moviesApi";
-import { image_url } from "../../constants";
 
 const MovieDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const movieId = parseInt(id ?? "", 10);
+  const movieId = id ?? "";
 
   const { data, error, isLoading } = useQuery({
     queryKey: ["movieDetail", movieId],
@@ -36,22 +35,32 @@ const MovieDetail: React.FC = () => {
 
   const {
     title,
-    poster_path,
-    release_date,
+
+    poster,
+    classification,
+    released_on,
     genres,
-    runtime,
-    vote_average,
+    imdb_rating,
+    length,
     overview,
+    cast,
+    director,
   } = data!;
 
   const details = [
     {
-      label: "Release Date",
-      value: new Date(release_date).toLocaleDateString(),
+      label: "Director",
+      value: director ?? "",
     },
-    { label: "Genres", value: genres.map((genre) => genre.name).join(", ") },
-    { label: "Runtime", value: `${runtime} minutes` },
-    { label: "Rating", value: vote_average },
+    {
+      label: "Release Date",
+      value: new Date(released_on).toLocaleDateString(),
+    },
+    { label: "Genres", value: genres.map((genre) => genre).join(", ") },
+    { label: "Classification", value: `${classification}` },
+    { label: "Runtime", value: `${length}` },
+    { label: "Cast", value: cast?.map((cast) => cast).join(", ") },
+    { label: "Rating", value: imdb_rating },
     { label: "Overview", value: overview },
   ];
 
@@ -60,7 +69,7 @@ const MovieDetail: React.FC = () => {
       <h1 className="h2">Movie Details</h1>
       <div className="grid md:grid-cols-3 gap-8">
         <div>
-          <img src={`${image_url}/t/p/w500${poster_path}`} alt={title} />
+          <img src={`${poster}`} alt={title} />
         </div>
         <div className="col-span-2 flex flex-col gap-2">
           <h1 className="h1">{title}</h1>

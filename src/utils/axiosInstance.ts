@@ -2,9 +2,20 @@ import axios from 'axios';
 
 const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
-  params: {
-    api_key: import.meta.env.VITE_TMDB_API_KEY,
-  },
 });
 
+
+// Add a request interceptor to set headers
+axiosInstance.interceptors.request.use(
+  (config) => {
+    // Set headers here
+    config.headers['Authorization'] = `Bearer ${import.meta.env.VITE_API_TOKEN}`;
+    config.headers['Content-Type'] = 'application/json';
+    return config;
+  },
+  (error) => {
+    // Handle request error here
+    return Promise.reject(error);
+  }
+);
 export default axiosInstance;

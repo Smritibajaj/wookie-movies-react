@@ -1,12 +1,20 @@
 export interface Movie {
-  id: number;
+  id: string;
   title: string;
   overview: string;
-  poster_path: string;
-  release_date: string;
+  poster: string;
+  backdrop: string;
+  classification: string;
+  length: string;
+  released_on: string;
+  genres: string[];
+  cast?: string[];
+  imdb_rating?: string | number;
+  slug?: string;
+  director?: string;
 }
 
-export interface Genre {
-  id: number;
+export interface GenreSectionProps {
   name: string;
+  genre: Movie[];
 }

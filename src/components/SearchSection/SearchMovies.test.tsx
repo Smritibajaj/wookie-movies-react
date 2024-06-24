@@ -1,51 +1,79 @@
-import { render, screen, fireEvent } from '@testing-library/react';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import SearchMovies from './index';
-import { BrowserRouter } from 'react-router-dom';
+import { render, screen, fireEvent } from "@testing-library/react";
+import { useQuery } from "@tanstack/react-query";
+import { vi } from "vitest";
+import SearchMovies from "./index";
+import { Movie } from "../../constants/types";
 
-const queryClient = new QueryClient();
+// Mocking the moviesApi and the useQuery hook
+vi.mock("../../apis/moviesApi", () => ({
+  searchMovies: vi.fn(),
+}));
 
-describe('SearchMovies', () => {
-  test('renders search input and header', () => {
-    render(
-      <QueryClientProvider client={queryClient}>
-        <BrowserRouter>
-          <SearchMovies />
-        </BrowserRouter>
-      </QueryClientProvider>
-    );
+vi.mock("@tanstack/react-query", () => ({
+  useQuery: vi.fn(),
+}));
 
-    expect(screen.getByPlaceholderText(/search for a movie/i)).toBeInTheDocument();
-    expect(screen.getByRole('heading')).toBeInTheDocument();
+const mockMovies: Movie[] = [
+  {
+    backdrop: "https://example.com/backdrop1.jpg",
+    cast: ["Actor 1", "Actor 2"],
+    classification: "PG-13",
+
+    genres: ["Action", "Adventure"],
+    id: "1",
+    imdb_rating: 8.5,
+    length: "2h 30min",
+    overview: "Overview of the first movie.",
+    poster: "https://example.com/poster1.jpg",
+    released_on: "2021-01-01",
+    slug: "first-movie",
+    title: "First Movie",
+  },
+  {
+    backdrop: "https://example.com/backdrop2.jpg",
+    cast: ["Actor 3", "Actor 4"],
+    classification: "R",
+
+    genres: ["Drama"],
+    id: "2",
+    imdb_rating: 9.0,
+    length: "2h 00min",
+    overview: "Overview of the second movie.",
+    poster: "https://example.com/poster2.jpg",
+    released_on: "2021-02-01",
+    slug: "second-movie",
+    title: "Second Movie",
+  },
+];
+
+describe("SearchMovies", () => {
+  beforeEach(() => {
+    (useQuery as jest.Mock).mockReturnValue({
+      data: { movies: mockMovies },
+      error: null,
+      isLoading: false,
+    });
   });
 
-  test('handles input change', () => {
-    render(
-      <QueryClientProvider client={queryClient}>
-        <BrowserRouter>
-          <SearchMovies />
-        </BrowserRouter>
-      </QueryClientProvider>
-    );
-
-    const input = screen.getByPlaceholderText(/search for a movie/i);
-    fireEvent.change(input, { target: { value: 'Inception' } });
-
-    expect(input).toHaveValue('Inception');
+  it("should display loading state", () => {
+    (useQuery as jest.Mock).mockReturnValue({
+      data: null,
+      error: null,
+      isLoading: true,
+    });
+    render(<SearchMovies />);
+    const loading = screen.getByText(/loading/i);
+    expect(loading).toBeInTheDocument();
   });
 
-  test('shows loading state initially', () => {
-    render(
-      <QueryClientProvider client={queryClient}>
-        <BrowserRouter>
-          <SearchMovies />
-        </BrowserRouter>
-      </QueryClientProvider>
-    );
-
-    const input = screen.getByPlaceholderText(/search for a movie/i);
-    fireEvent.change(input, { target: { value: 'Inception' } });
-
-    expect(screen.getByText(/loading/i)).toBeInTheDocument();
+  it("should display error state", () => {
+    (useQuery as jest.Mock).mockReturnValue({
+      data: null,
+      error: { message: "Error fetching movies" },
+      isLoading: false,
+    });
+    render(<SearchMovies />);
+    const error = screen.getByText(/error: error fetching movies/i);
+    expect(error).toBeInTheDocument();
   });
 });

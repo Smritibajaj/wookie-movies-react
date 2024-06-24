@@ -19,6 +19,7 @@ const SearchMovies: React.FC = () => {
     setQuery(event.target.value);
   };
 
+
   return (
     <div>
       <div className="w-full h-24 md:h-16 border-b">
@@ -38,10 +39,10 @@ const SearchMovies: React.FC = () => {
       </div>
       <div
         className={`box-container ${
-          data?.results?.length ? "my-4 border-b border-gray-300" : ""
+          data?.movies?.length ? "my-4 border-b border-gray-300" : ""
         }`}
       >
-        {data?.results?.length ? (
+        {data?.movies?.length ? (
           <h2 className="h2">{`Search Result`}</h2>
         ) : (
           <></>
@@ -49,16 +50,20 @@ const SearchMovies: React.FC = () => {
         <div className="flex w-full gap-6 overflow-auto my-6">
           {isLoading && <div>Loading...</div>}
           {error && <div>Error: {error.message}</div>}
-          {data?.results.map((movie: Movie) => (
-            <MovieCard
-              key={movie.id}
-              id={movie.id}
-              title={movie.title}
-              poster_path={movie.poster_path}
-              release_date={movie.release_date}
-              overview={movie.overview}
-            />
-          ))}
+          {data?.movies?.map((movie: Movie) => (
+          <MovieCard
+            key={movie.id}
+            id={movie.id}
+            title={movie.title}
+            backdrop={movie.backdrop}
+            released_on={movie.released_on}
+            overview={movie.overview}
+            poster={movie.poster}
+            classification={movie.classification}
+            length={movie.length}
+            genres={movie.genres}
+          />
+        ))}
         </div>
       </div>
     </div>

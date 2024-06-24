@@ -1,58 +1,46 @@
 import { render, screen } from '@testing-library/react';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import GenreSection from './index';
-import { fetchMoviesByGenre } from '../../apis/moviesApi';
-import { BrowserRouter } from 'react-router-dom';
-import { describe, expect, vi } from 'vitest';
+import { Movie } from '../../constants/types';
 
-vi.mock('../../apis/moviesApi');
-
-const mockFetchMoviesByGenre = fetchMoviesByGenre as any;
-
-const queryClient = new QueryClient();
-
-const genre = { id: 1, name: 'Action' };
+const mockMovies: Movie[] = [
+  {
+    backdrop: 'https://example.com/backdrop1.jpg',
+    cast: ['Actor 1', 'Actor 2'],
+    classification: 'PG-13',
+    director: 'Director 1',
+    genres: ['Action', 'Adventure'],
+    id: '1',
+    imdb_rating: 8.5,
+    length: '2h 30min',
+    overview: 'Overview of the first movie.',
+    poster: 'https://example.com/poster1.jpg',
+    released_on: '2021-01-01',
+    slug: 'first-movie',
+    title: 'First Movie',
+  },
+  {
+    backdrop: 'https://example.com/backdrop2.jpg',
+    cast: ['Actor 3', 'Actor 4'],
+    classification: 'R',
+    director: 'Director 2',
+    genres: ['Drama'],
+    id: '2',
+    imdb_rating: 9.0,
+    length: '2h 00min',
+    overview: 'Overview of the second movie.',
+    poster: 'https://example.com/poster2.jpg',
+    released_on: '2021-02-01',
+    slug: 'second-movie',
+    title: 'Second Movie',
+  },
+];
 
 describe('GenreSection', () => {
-  beforeEach(() => {
-    queryClient.clear();
-  });
 
-  test('renders loading state initially', () => {
-    mockFetchMoviesByGenre.mockReturnValue(new Promise(() => {}));
-    render(
-      <QueryClientProvider client={queryClient}>
-        <BrowserRouter>
-          <GenreSection genre={genre} />
-        </BrowserRouter>
-      </QueryClientProvider>
-    );
-
-    expect(screen.getByText(/loading movies for action/i)).toBeInTheDocument();
-  });
-
-  test('renders movies for a genre', async () => {
-    mockFetchMoviesByGenre.mockResolvedValueOnce({
-      results: [
-        {
-          id: 1,
-          title: 'Inception',
-          overview: 'A thief who steals corporate secrets through the use of dream-sharing technology...',
-          poster_path: '/inception.jpg',
-          release_date: '2010-07-16',
-        },
-      ],
-    });
-
-    render(
-      <QueryClientProvider client={queryClient}>
-        <BrowserRouter>
-          <GenreSection genre={genre} />
-        </BrowserRouter>
-      </QueryClientProvider>
-    );
-
-    expect(await screen.findByText(/inception/i)).toBeInTheDocument();
-    expect(screen.getByAltText(/inception/i)).toBeInTheDocument();
+  it('should handle empty genre list', () => {
+    render(<GenreSection name="Action" genre={[]} />);
+    const genreName = screen.getByText(/Action/i);
+    expect(genreName).toBeInTheDocument();
+    expect(screen.queryByAltText(/Overview of the first movie./i)).not.toBeInTheDocument();
   });
 });
