@@ -53,7 +53,7 @@ const MovieDetail: React.FC = () => {
       value: director ?? "",
     },
     {
-      label: "Release Date",
+      label: "Release On",
       value: new Date(released_on).toLocaleDateString(),
     },
     { label: "Genres", value: genres.map((genre) => genre).join(", ") },
