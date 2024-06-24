@@ -49,7 +49,7 @@ const mockMovies = {
 
 describe('MoviesByGenre', () => {
   beforeEach(() => {
-    (useQuery as vi.Mock).mockReturnValue({
+    (useQuery as any).mockReturnValue({
       data: mockMovies,
       error: null,
       isLoading: false,
@@ -57,7 +57,7 @@ describe('MoviesByGenre', () => {
   });
 
   it('should render loading state', () => {
-    (useQuery as vi.Mock).mockReturnValue({
+    (useQuery as any).mockReturnValue({
       data: null,
       error: null,
       isLoading: true,
@@ -68,7 +68,7 @@ describe('MoviesByGenre', () => {
   });
 
   it('should render error state', () => {
-    (useQuery as vi.Mock).mockReturnValue({
+    (useQuery as any).mockReturnValue({
       data: null,
       error: { message: 'Error fetching genres' },
       isLoading: false,

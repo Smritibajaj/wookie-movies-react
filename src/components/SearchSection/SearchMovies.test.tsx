@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { useQuery } from "@tanstack/react-query";
 import { vi } from "vitest";
 import SearchMovies from "./index";
