@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { searchMovies } from "../../apis/moviesApi.ts";
 import MovieCard from "../MovieCard.tsx/index.tsx";
 import Header from "../Header/index.tsx";
-import { MagnifyingGlassIcon } from "@heroicons/react/16/solid";
+import { MagnifyingGlassIcon, XMarkIcon } from "@heroicons/react/16/solid";
 import { Movie } from "../../constants/types.tsx";
 
 const SearchMovies: React.FC = () => {
@@ -18,7 +18,6 @@ const SearchMovies: React.FC = () => {
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(event.target.value);
   };
-
 
   return (
     <div>
@@ -34,6 +33,9 @@ const SearchMovies: React.FC = () => {
               onChange={handleInputChange}
               placeholder="Search for a movie..."
             />
+            <button onClick={() => setQuery("")}>
+              <XMarkIcon className="h-6 w-6 text-gray-600" />
+            </button>
           </div>
         </div>
       </div>
@@ -51,19 +53,19 @@ const SearchMovies: React.FC = () => {
           {isLoading && <div>Loading...</div>}
           {error && <div>Error: {error.message}</div>}
           {data?.movies?.map((movie: Movie) => (
-          <MovieCard
-            key={movie.id}
-            id={movie.id}
-            title={movie.title}
-            backdrop={movie.backdrop}
-            released_on={movie.released_on}
-            overview={movie.overview}
-            poster={movie.poster}
-            classification={movie.classification}
-            length={movie.length}
-            genres={movie.genres}
-          />
-        ))}
+            <MovieCard
+              key={movie.id}
+              id={movie.id}
+              title={movie.title}
+              backdrop={movie.backdrop}
+              released_on={movie.released_on}
+              overview={movie.overview}
+              poster={movie.poster}
+              classification={movie.classification}
+              length={movie.length}
+              genres={movie.genres}
+            />
+          ))}
         </div>
       </div>
     </div>
