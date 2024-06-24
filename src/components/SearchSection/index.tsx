@@ -21,13 +21,13 @@ const SearchMovies: React.FC = () => {
 
   return (
     <div>
-      <div className="w-full h-24 md:h-16 border-b">
+      <div className="w-full h-28 md:h-16 border-b">
         <div className="box-container md:flex md:justify-between items-center h-full">
           <Header />
           <div className="flex items-center border px-2 gap-2 py-1 rounded">
             <MagnifyingGlassIcon className="h-6 w-6 text-gray-600" />
             <input
-              className="my-2 focus:outline-none focus:border-none"
+              className="my-2 focus:outline-none focus:border-none w-4/5"
               type="text"
               value={query}
               onChange={handleInputChange}
